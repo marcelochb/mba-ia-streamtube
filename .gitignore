@@ -1,0 +1,7 @@
+# MCP server config — contains DB connection strings (credentials)
+.mcp.json
+
+# Environment files
+.env
+.env.*
+!.env.example
