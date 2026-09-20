@@ -118,7 +118,7 @@ _Subprojects in scope:_
 
 **Capability:** "Serviço de envio de e-mails transacionais"
 
-**Context:** `docs/software-arch.mermaid` fixa o transporte (SMTP, sistema externo), mas não a biblioteca nem a estratégia de templates. Nenhuma skill do projeto cobre e-mail. `nestjs-backend/CLAUDE.md` já antecipa o resultado ao citar `mail.config.ts`, `MAIL_FROM` e templates `.hbs` que precisam entrar em `nest-cli.json` sob `compilerOptions.assets` — sinal de que Handlebars é o caminho esperado, mas a escolha ainda não está registrada como decisão.
+**Context:** `docs/diagrams/software-arch.mermaid` fixa o transporte (SMTP, sistema externo), mas não a biblioteca nem a estratégia de templates. Nenhuma skill do projeto cobre e-mail. `nestjs-backend/CLAUDE.md` já antecipa o resultado ao citar `mail.config.ts`, `MAIL_FROM` e templates `.hbs` que precisam entrar em `nest-cli.json` sob `compilerOptions.assets` — sinal de que Handlebars é o caminho esperado, mas a escolha ainda não está registrada como decisão.
 
 **Options:**
 

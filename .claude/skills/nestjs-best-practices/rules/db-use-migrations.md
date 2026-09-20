@@ -7,7 +7,7 @@ tags: database, migrations, typeorm, schema
 
 ## Use Database Migrations
 
-Never use `synchronize: true` in production. Use migrations for all schema changes. Migrations provide version control for your database, enable safe rollbacks, and ensure consistency across all environments.
+Never use `synchronize: true` in any environment. Use migrations for all schema changes. Migrations provide version control for your database, enable safe rollbacks, and ensure consistency across all environments.
 
 **Incorrect (using synchronize or manual SQL):**
 
@@ -53,7 +53,7 @@ export const dataSource = new DataSource({
   database: process.env.DB_NAME,
   entities: ['dist/**/*.entity.js'],
   migrations: ['dist/migrations/*.js'],
-  synchronize: false, // Always false in production
+  synchronize: false, // Always false — every environment, no exceptions
   migrationsRun: true, // Run migrations on startup
 });
 
@@ -63,7 +63,7 @@ TypeOrmModule.forRootAsync({
   useFactory: (config: ConfigService) => ({
     type: 'postgres',
     host: config.get('DB_HOST'),
-    synchronize: config.get('NODE_ENV') === 'development', // Only in dev
+    synchronize: false, // Always false — every environment, no exceptions
     migrations: ['dist/migrations/*.js'],
     migrationsRun: true,
   }),

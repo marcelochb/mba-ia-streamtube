@@ -1,6 +1,6 @@
 ---
 paths:
-  - 'nestjs-project/**/*.controller.ts'
+  - 'nestjs-backend/**/*.controller.ts'
 description: 'Controller conventions — REST compliance, no silent errors, prefer exception filters over try/catch'
 ---
 
@@ -80,7 +80,7 @@ Each handler must declare:
 
 ### Error responses use the shared envelope
 
-Error responses must reference the shared `ApiErrorEnvelope` DTO (`nestjs-project/src/common/openapi/api-error-envelope.dto.ts`) via `getSchemaPath(ApiErrorEnvelope)`. Do not invent ad-hoc error shapes and do not inline error schemas — every endpoint in the API returns the same error envelope, and the documentation must reflect that.
+Error responses must reference the shared `ApiErrorEnvelope` DTO (`nestjs-backend/src/common/openapi/api-error-envelope.dto.ts`) via `getSchemaPath(ApiErrorEnvelope)`. Do not invent ad-hoc error shapes and do not inline error schemas — every endpoint in the API returns the same error envelope, and the documentation must reflect that.
 
 `204 No Content` responses carry no body, so they must not declare a `schema`.
 
@@ -97,7 +97,7 @@ me(@CurrentUser() user: JwtPayload): JwtPayload { ... }
 
 ### Canonical example
 
-`nestjs-project/src/auth/auth.controller.ts` is the reference implementation of the convention above — when in doubt about how to combine these decorators, mirror it.
+`nestjs-backend/src/auth/auth.controller.ts` is the reference implementation of the convention above — when in doubt about how to combine these decorators, mirror it.
 
 ## Error Handling
 

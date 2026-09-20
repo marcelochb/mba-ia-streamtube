@@ -9,7 +9,7 @@ tags: migration, cli, synchronize, production, workflow
 
 **Impact: HIGH (synchronize in production causes data loss; skipping migrations leads to schema drift)**
 
-Always use migrations for schema changes. Never use `synchronize: true` in production.
+Always use migrations for schema changes. Never use `synchronize: true` in any environment.
 
 **Incorrect (using synchronize instead of migrations):**
 
@@ -27,7 +27,7 @@ export const AppDataSource = new DataSource({
 // data-source.ts
 export const AppDataSource = new DataSource({
   // ...
-  synchronize: process.env.NODE_ENV === 'development', // true in dev, false in production
+  synchronize: false, // false in EVERY environment — see project rule below
   migrations: ["src/migrations/**/*.ts"],
 });
 ```
@@ -57,21 +57,9 @@ npx typeorm migration:revert -d src/data-source.ts
 5. Commit both the entity change and the migration file together
 
 **Key points:**
-- `synchronize: false` in production — enforced via config validation (e.g., Joi schema in `ConfigModule.forRoot()`)
-- `synchronize: true` is acceptable in development for convenience, as it auto-syncs schema without running migrations
-- Use NestJS `ConfigModule` with validation to guarantee `synchronize` is never `true` in production:
-  ```typescript
-  ConfigModule.forRoot({
-    validationSchema: Joi.object({
-      NODE_ENV: Joi.string().valid('development', 'production', 'test').default('development'),
-      DB_SYNCHRONIZE: Joi.when('NODE_ENV', {
-        is: 'production',
-        then: Joi.boolean().valid(false).default(false),
-        otherwise: Joi.boolean().default(true),
-      }),
-    }),
-  })
-  ```
+- `synchronize` is **hardcoded `false` in every environment** — development, test and production alike. This project rule is defined in `.claude/rules/typeorm-migrations.md` and **prevails over** the canonical TypeORM/NestJS examples, which enable `synchronize` in development.
+- Do **not** make `synchronize` environment-conditional and do **not** expose it as an env var: there is no `DB_SYNCHRONIZE` in this project. A literal `false` cannot be flipped by a misconfigured environment.
+- Rationale: `synchronize: true` in development produces tables with no migration backing them, so the schema on a developer machine silently drifts from what migrations actually build in production — the drift is only discovered at deploy time. Migrations are the single sanctioned path for schema change.
 - Use `migration:generate` for schema changes, `migration:create` for data/seed migrations
 - Always review generated migrations before running them
 - Commit entity changes and migration files in the same commit

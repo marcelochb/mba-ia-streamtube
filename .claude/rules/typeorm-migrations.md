@@ -1,7 +1,7 @@
 ---
 paths:
-  - 'nestjs-project/**/migrations/**'
-  - 'nestjs-project/**/*data-source.ts'
+  - 'nestjs-backend/**/migrations/**'
+  - 'nestjs-backend/**/*data-source.ts'
 description: 'Database migration safety rules'
 ---
 
