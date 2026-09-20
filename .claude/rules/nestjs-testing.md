@@ -1,15 +1,15 @@
 ---
 paths:
-  - 'nestjs-project/**/*.spec.ts'
-  - 'nestjs-project/**/*.integration-spec.ts'
-  - 'nestjs-project/**/*.e2e-spec.ts'
-  - 'nestjs-project/test/**'
+  - 'nestjs-backend/**/*.spec.ts'
+  - 'nestjs-backend/**/*.integration-spec.ts'
+  - 'nestjs-backend/**/*.e2e-spec.ts'
+  - 'nestjs-backend/test/**'
 description: 'Testing conventions for NestJS unit, integration, and e2e tests'
 ---
 
 # Testing Rules
 
-> Suffix selection (`*.spec.ts` vs `*.integration-spec.ts` vs `*.e2e-spec.ts`) and test file location are pre-creation decisions covered in `nestjs-project/CLAUDE.md` → "Test Type Selection". The rules below assume you are already inside a test file of the correct kind.
+> Suffix selection (`*.spec.ts` vs `*.integration-spec.ts` vs `*.e2e-spec.ts`) and test file location are pre-creation decisions covered in `nestjs-backend/CLAUDE.md` → "Test Type Selection". The rules below assume you are already inside a test file of the correct kind.
 
 ## Unit Tests (`*.spec.ts`)
 

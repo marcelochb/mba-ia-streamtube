@@ -82,8 +82,13 @@ export const validationSchema = Joi.object({
       load: [databaseConfig, appConfig],
       validationSchema,
       validationOptions: {
-        abortEarly: true, // Stop on first error
-        allowUnknown: true, // Allow other env vars
+        // Joi >= 18 implements Standard Schema: library-specific settings MUST be
+        // nested under `libraryOptions`. The flat form (abortEarly/allowUnknown
+        // directly on validationOptions) is silently ignored by @nestjs/config.
+        libraryOptions: {
+          abortEarly: false, // Report every invalid variable at once, not just the first
+          allowUnknown: true, // Allow other env vars
+        },
       },
     }),
     TypeOrmModule.forRootAsync({

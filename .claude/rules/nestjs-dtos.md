@@ -1,6 +1,6 @@
 ---
 paths:
-  - 'nestjs-project/**/*.dto.ts'
+  - 'nestjs-backend/**/*.dto.ts'
 description: 'DTO conventions for input validation and data transfer'
 ---
 
@@ -17,7 +17,7 @@ DTOs are the source of request/response schemas in the exported `openapi.json`. 
 
 ### Default: rely on the Swagger CLI plugin (request DTOs)
 
-The project runs the `@nestjs/swagger` CLI plugin, configured in `nestjs-project/nest-cli.json` with `classValidatorShim: true` and `introspectComments: true`. For a request DTO that already carries `class-validator` decorators (`@IsEmail`, `@IsString`, `@MinLength`, `@MaxLength`, `@IsOptional`, `@Type`, …), the plugin auto-generates `@ApiProperty` from those decorators and from the TypeScript type of the field. Do **not** add `@ApiProperty` manually in this case:
+The project runs the `@nestjs/swagger` CLI plugin, configured in `nestjs-backend/nest-cli.json` with `classValidatorShim: true` and `introspectComments: true`. For a request DTO that already carries `class-validator` decorators (`@IsEmail`, `@IsString`, `@MinLength`, `@MaxLength`, `@IsOptional`, `@Type`, …), the plugin auto-generates `@ApiProperty` from those decorators and from the TypeScript type of the field. Do **not** add `@ApiProperty` manually in this case:
 
 - It is redundant — the plugin already emits the same metadata.
 - It drifts from the validation rule. `@ApiProperty({ minLength: 8 })` on a field with `@MinLength(8)` becomes a lie the day someone changes the validator to `@MinLength(12)` and forgets the swagger annotation.
@@ -32,13 +32,13 @@ export class LoginDto {
 }
 ```
 
-Canonical request DTO: `nestjs-project/src/auth/dto/register.dto.ts` (purely `class-validator`, zero `@ApiProperty`).
+Canonical request DTO: `nestjs-backend/src/auth/dto/register.dto.ts` (purely `class-validator`, zero `@ApiProperty`).
 
 ### When `@ApiProperty` is required
 
 Annotate fields explicitly when the plugin cannot infer them:
 
-- **Response DTOs** — shapes that are not validated input have no `class-validator` decorators, so the plugin has nothing to introspect. Every field needs `@ApiProperty`. Canonical example: `nestjs-project/src/common/openapi/api-error-envelope.dto.ts`.
+- **Response DTOs** — shapes that are not validated input have no `class-validator` decorators, so the plugin has nothing to introspect. Every field needs `@ApiProperty`. Canonical example: `nestjs-backend/src/common/openapi/api-error-envelope.dto.ts`.
 - **Polymorphic / union types** (e.g., `string | string[]`, `oneOf`) — the plugin does not infer unions. Use `@ApiProperty({ oneOf: [...] })`.
 - **Optional / nullable fields on a response DTO** — declare `@ApiProperty({ required: false, nullable: true })`.
 - **Controlled `example`** that differs from the inferred type (UUID, ISO date, formatted slug, etc.).

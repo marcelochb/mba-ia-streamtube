@@ -1,10 +1,10 @@
 ---
 paths:
-  - 'nestjs-project/**/*.controller.ts'
-  - 'nestjs-project/**/*.guard.ts'
-  - 'nestjs-project/**/*.interceptor.ts'
-  - 'nestjs-project/**/*.pipe.ts'
-  - 'nestjs-project/**/*.filter.ts'
+  - 'nestjs-backend/**/*.controller.ts'
+  - 'nestjs-backend/**/*.guard.ts'
+  - 'nestjs-backend/**/*.interceptor.ts'
+  - 'nestjs-backend/**/*.pipe.ts'
+  - 'nestjs-backend/**/*.filter.ts'
 description: 'Layer separation — business logic belongs exclusively in services; controllers, guards, interceptors, pipes, and filters must delegate to services'
 ---
 

@@ -15,7 +15,7 @@ Comprehensive best practices guide for NestJS applications. Contains 40 rules ac
 
 Apply these guidelines during **planning and implementation** of NestJS features:
 
-- **Planning phase:** When designing module architecture, defining service boundaries, or choosing patterns for a new feature in `nestjs-project/`
+- **Planning phase:** When designing module architecture, defining service boundaries, or choosing patterns for a new feature in `nestjs-backend/`
 - **Implementation phase:** When writing or modifying controllers, services, guards, pipes, interceptors, entities, or repositories
 - **Auth & Security:** When implementing authentication, authorization, guards, or input validation
 - **Database:** When creating entities, repositories, migrations, or optimizing queries with TypeORM

@@ -1,6 +1,6 @@
 ---
 paths:
-  - 'nestjs-project/**/*.service.ts'
+  - 'nestjs-backend/**/*.service.ts'
 description: 'Service layer error handling — errors must always propagate to upper layers'
 ---
 

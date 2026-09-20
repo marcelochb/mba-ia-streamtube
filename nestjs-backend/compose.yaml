@@ -5,6 +5,8 @@ services:
       dockerfile: Dockerfile.dev
     ports:
       - 3000:3000
+    env_file:
+      - .env
     volumes:
       - .:/home/node/app
     depends_on:
@@ -16,11 +18,16 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_USER=streamtube
-      - POSTGRES_PASSWORD=streamtube
-      - POSTGRES_DB=streamtube
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U streamtube"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME}"]
       interval: 5s
       timeout: 5s
       retries: 5
+
+volumes:
+  pgdata:

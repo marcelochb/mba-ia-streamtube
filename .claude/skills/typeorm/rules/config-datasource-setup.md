@@ -32,6 +32,7 @@ export const AppDataSource = new DataSource({
 
 ```typescript
 // data-source.ts
+import { readFileSync } from "node:fs";
 import { DataSource } from "typeorm";
 import { User } from "./entities/User";
 import { Post } from "./entities/Post";
@@ -51,7 +52,9 @@ export const AppDataSource = new DataSource({
   // Migrations
   migrations: ["src/migrations/**/*.ts"],
 
-  // NEVER use synchronize in production
+  // synchronize is false in EVERY environment in this project — including
+  // development and test. See `.claude/rules/typeorm-migrations.md`; schema
+  // changes only ever reach the database through a migration.
   synchronize: false,
 
   // Logging — enable in development only
@@ -60,10 +63,16 @@ export const AppDataSource = new DataSource({
   // Connection pool
   poolSize: 10,
 
-  // SSL for production
+  // SSL for production — NEVER use `rejectUnauthorized: false`. It disables
+  // certificate chain validation, so the driver accepts ANY certificate,
+  // including an attacker's: the connection becomes trivially MITM-able and
+  // database credentials plus all query traffic are exposed.
   ssl:
     process.env.NODE_ENV === "production"
-      ? { rejectUnauthorized: false }
+      ? {
+          rejectUnauthorized: true,
+          ca: readFileSync(process.env.DB_SSL_CA_PATH!, "utf8"),
+        }
       : false,
 });
 
@@ -75,9 +84,9 @@ AppDataSource.initialize()
 
 **Key points:**
 - Always use environment variables for credentials
-- Set `synchronize: false` — use migrations instead
+- Set `synchronize: false` in **every** environment — use migrations instead
 - Configure connection pooling (`poolSize`)
-- Enable SSL in production environments
+- Enable SSL in production with `rejectUnauthorized: true` and an explicit `ca` bundle — never `rejectUnauthorized: false`
 - Prefer explicit entity imports over glob patterns for type safety
 
 Reference: [TypeORM DataSource](https://typeorm.io/data-source)

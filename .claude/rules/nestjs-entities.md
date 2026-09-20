@@ -1,6 +1,6 @@
 ---
 paths:
-  - 'nestjs-project/**/*.entity.ts'
+  - 'nestjs-backend/**/*.entity.ts'
 description: 'TypeORM entity conventions for database models'
 ---
 

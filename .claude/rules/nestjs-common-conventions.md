@@ -1,6 +1,6 @@
 ---
 paths:
-  - 'nestjs-project/src/**/*.ts'
+  - 'nestjs-backend/src/**/*.ts'
 description: 'NestJS common conventions'
 ---
 
